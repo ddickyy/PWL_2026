@@ -14,6 +14,28 @@ class UserController extends Controller
 
     public function index()
     {
+
+        // $user = UserModel::firstOrCreate(
+        //     [
+        //         'username' => 'manager22', // Kondisi untuk mencari data
+        //         'nama' => 'Manager Dua Dua', // Data yang akan dibuat jika data tidak ditemukan
+        //         'password' => Hash::make('12345'),
+        //         'level_id' => 2
+        //     ]
+        // );
+        
+
+        $user = UserModel::firstOrNew(
+            [
+                'username' => 'manager33',
+                'nama' => 'Manager Tiga Tiga',
+                'password' => Hash::make('12345'),
+                'level_id' => 2
+            ]
+        );
+        $user->save();
+        return view('user', ['data' => $user]);
+
         // // Tambah data pengguna baru dengan Eloquent ORM
         // $data = [
         //     'nama' => 'Pelanggan Pertama'
@@ -33,8 +55,8 @@ class UserController extends Controller
         // $user = UserModel::all(); // Mengambil semua data pengguna dari tabel m_user
         // return view('user', ['data' => $user]);
 
-        $user = UserModel::where('level_id', 2)->count();
-        // Mengambil data pengguna dengan ID 1 dari tabel m_user
-        return view('user', ['data' => $user]);
+        // $user = UserModel::where('level_id', 2)->count();
+        // // Mengambil data pengguna dengan ID 1 dari tabel m_user
+        // return view('user', ['data' => $user]);
     }
 }
