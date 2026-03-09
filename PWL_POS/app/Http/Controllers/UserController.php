@@ -33,9 +33,8 @@ class UserController extends Controller
         // $user = UserModel::all(); // Mengambil semua data pengguna dari tabel m_user
         // return view('user', ['data' => $user]);
 
-        $user = UserModel::findOr(10, ['username', 'nama'], function () {
-            abort(404);
-        }); // Mengambil data pengguna dengan ID 1 dari tabel m_user
+        $user = UserModel::where('username', 'customer9')->firstOrFail();
+        // Mengambil data pengguna dengan ID 1 dari tabel m_user
         return view('user', ['data' => $user]);
     }
 }
