@@ -21,39 +21,54 @@ class PostForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(3)
             ->components([
                 Section::make("Post Details")
                     ->description("Fill in the details of the post.")
                     ->icon("heroicon-o-document-text")
                     ->schema([
                         Group::make([
-                            TextInput::make("title"),
-                            TextInput::make("slug"),
+                            TextInput::make("title")
+                                ->required(),
+
+                            TextInput::make("slug")
+                                ->required(),
+
                             Select::make("category_id")
                                 ->relationship("category", "name")
                                 ->preload()
                                 ->searchable(),
+
                             ColorPicker::make("color"),
                         ])->columns(2),
-                        MarkdownEditor::make("content"),
-                    ])->columnSpan(2),
+
+                        MarkdownEditor::make("content")
+                            ->columnSpanFull(),
+                    ])
+                    ->columnSpan(2),
 
                 Group::make([
+
                     Section::make("Image Upload")
-                        // RichEditor::make("Content"),
+                        ->description("Upload gambar utama")
+                        ->icon("heroicon-o-photo")
                         ->schema([
                             FileUpload::make("image")
+                                ->image()
                                 ->disk("public")
                                 ->directory("posts"),
                         ]),
 
                     Section::make("Meta Information")
+                        ->description("Informasi tambahan")
+                        ->icon("heroicon-o-cog-6-tooth")
                         ->schema([
                             TagsInput::make("tags"),
                             Checkbox::make("published"),
-                        ])->columns(2),
-                    DateTimePicker::make("published_at"),
+                            DateTimePicker::make("published_at"),
+                        ])
+                        ->columns(1),
                 ])->columnSpan(1),
-            ])->columns(3);
+            ]);
     }
 }
