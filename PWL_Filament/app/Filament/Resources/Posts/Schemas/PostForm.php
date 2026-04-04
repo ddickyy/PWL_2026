@@ -29,12 +29,20 @@ class PostForm
                     ->schema([
                         Group::make([
                             TextInput::make("title")
-                                ->required(),
-
+                                // ->required()
+                                // ->maxLength(255),
+                                ->rules("required | min:5 | max:10"),
                             TextInput::make("slug")
-                                ->required(),
-
+                                ->rules('required')
+                                ->unique()
+                                ->validationMessages([
+                                    "unique" => "The slug must be unique"
+                                ]),
                             Select::make("category_id")
+                                ->rules('required')
+                                ->validationMessages([
+                                    "required" => "The category field is required"
+                                ])
                                 ->relationship("category", "name")
                                 ->preload()
                                 ->searchable(),
@@ -55,6 +63,7 @@ class PostForm
                         ->schema([
                             FileUpload::make("image")
                                 ->image()
+                                ->required()
                                 ->disk("public")
                                 ->directory("posts"),
                         ]),
