@@ -31,7 +31,7 @@ class PostForm
                             TextInput::make("title")
                                 // ->required()
                                 // ->maxLength(255),
-                                ->rules("required | min:5 | max:10"),
+                                ->rules("required | min:5 | max:20"),
                             TextInput::make("slug")
                                 ->rules('required')
                                 ->unique()
