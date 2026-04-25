@@ -12,6 +12,7 @@ use Filament\Tables\Table;
 use Symfony\Component\Console\Color;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ColorColumn;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -23,23 +24,41 @@ class PostsTable
         return $table
             ->defaultSort("created_at", "desc")
             ->columns([
+                TextColumn::make("id")
+                    ->label("ID")
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make("title")
-                ->sortable()
-                ->searchable(),
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(),
                 TextColumn::make("slug")
-                ->sortable()
-                ->searchable(),
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(),
                 TextColumn::make("category.name")
-                ->sortable()
-                ->searchable(),
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(),
                 TextColumn::make("created_at")
-                ->dateTime()
-                ->sortable(),
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(),
+                TextColumn::make("tags")
+                    ->label("Tags")
+                    ->toggleable(),
+                IconColumn::make("published")
+                    ->boolean()
+                    ->label("Published")
+                    ->toggleable(),
                 ColorColumn::make("color")
-                ->sortable(),
+                    ->sortable()
+                    ->label("Color")
+                    ->toggleable(isToggledHiddenByDefault: true),
                 ImageColumn::make("image")
                     ->disk("public")
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
             ])
             ->filters([
                 Filter::make("created_at")
