@@ -48,7 +48,7 @@ class PostsTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(),
-                TextColumn::make("tags")
+                TextColumn::make("tags.pluck:name, ', ')")
                     ->label("Tags")
                     ->toggleable(),
                 IconColumn::make("published")
