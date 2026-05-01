@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Posts\Schemas;
 
+use App\Models\Category;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\ColorPicker;
@@ -44,7 +45,8 @@ class PostForm
                                     "required" => "The category field is required"
                                 ])
                                 ->relationship("category", "name")
-                                ->preload()
+                                ->options(Category::pluck("name", "id"))
+                                // ->preload()
                                 ->searchable(),
 
                             ColorPicker::make("color"),
