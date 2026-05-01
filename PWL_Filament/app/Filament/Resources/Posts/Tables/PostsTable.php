@@ -3,9 +3,13 @@
 namespace App\Filament\Resources\Posts\Tables;
 
 use Dom\Text;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ReplicateAction;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DatePicker;
 use Filament\Schemas\Components\Image;
 use Filament\Tables\Table;
@@ -78,7 +82,21 @@ class PostsTable
                     ->label("Category"),
             ])
             ->recordActions([
+                ReplicateAction::make(),
                 EditAction::make(),
+                DeleteAction::make(),
+                Action::make("status")
+                ->label("status change")
+                ->icon("heroicon-s-rectangle-stack")
+                ->schema([
+                    Checkbox::make("published")
+                    ->default(fn($record) => $record->published),
+                ])
+                ->action(function ($record, $data) {
+                    $record->update([
+                        "published" => $data["published"],
+                    ]);
+                }),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
